@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { ArrowLeft, type LucideIcon } from 'lucide-react'
 
 interface PageHeaderProps {

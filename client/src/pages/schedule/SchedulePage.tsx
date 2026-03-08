@@ -9,18 +9,11 @@ import { getStudents } from '../../api/students'
 import { getTeachers } from '../../api/teachers'
 import { useAuthStore } from '../../stores/authStore'
 import { 
-  Trash2, Calendar as CalendarIcon, Clock, User, 
-  CheckCircle2, Save, MessageSquare, Filter, Info, ChevronDown, Calendar
+  CheckCircle2, Filter, Info, ChevronDown, Calendar
 } from 'lucide-react'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
 import { TimeSelect } from '../../components/ui/TimeSelect'
 import PageHeader from '../../components/common/PageHeader'
 import ModalHeader from '../../components/common/ModalHeader'
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 const TEACHER_COLORS = [
   '#eff6ff', '#fef2f2', '#f0fdf4', '#fffbeb', '#faf5ff', 
@@ -88,7 +81,11 @@ const SchedulePage = () => {
 
   const { data: schedules } = useQuery({
     queryKey: ['schedules', user?.teacherId, teacherId],
-    queryFn: () => getSchedules({ teacherId: user?.role === 'TEACHER' ? user?.teacherId : (teacherId ? Number(teacherId) : undefined) })
+    queryFn: () => getSchedules({ 
+      teacherId: user?.role === 'TEACHER' 
+        ? (user?.teacherId ?? undefined) 
+        : (teacherId ? Number(teacherId) : undefined) 
+    })
   })
 
   const { data: students } = useQuery({
@@ -201,7 +198,7 @@ const SchedulePage = () => {
 
   const handleCreateSchedule = () => {
     if (!studentId || !selectedDate) return
-    const finalTeacherId = user?.role === 'MASTER' ? Number(teacherId) : user?.teacherId
+    const finalTeacherId = user?.role === 'MASTER' ? Number(teacherId) : (user?.teacherId ?? undefined)
     if (!finalTeacherId) {
       alert('Please select a teacher.')
       return

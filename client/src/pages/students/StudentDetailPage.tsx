@@ -1,12 +1,12 @@
-import { useParams, Link, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getStudentById, updateStudent, addSessions } from '../../api/students'
+import { getStudentById, updateStudent } from '../../api/students'
 import { getTeachers } from '../../api/teachers'
 import { useAuthStore } from '../../stores/authStore'
 import { 
-  ArrowLeft, Plus, Minus, MessageSquare, BookOpen, Target, 
+  Plus, Minus, MessageSquare, Target, 
   Info, Edit2, Save, X, Calendar, Clock, User, Phone, 
-  UserCircle, ClipboardList, CheckCircle2, History
+  UserCircle, History
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { clsx, type ClassValue } from 'clsx'

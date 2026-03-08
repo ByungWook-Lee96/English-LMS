@@ -4,17 +4,11 @@ import { Link } from 'react-router'
 import { getTeachers } from '../../api/teachers'
 import api from '../../lib/axios'
 import { 
-  User, Users, Calendar, Plus, X, Shield, ShieldCheck,
+  User, Users, Calendar, Shield, ShieldCheck,
   Lock, UserPlus, ArrowRight, UserCircle 
 } from 'lucide-react'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
 import PageHeader from '../../components/common/PageHeader'
 import ModalHeader from '../../components/common/ModalHeader'
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 // Fixed: Moving ModalOverlay outside to prevent focus loss during state changes
 const ModalOverlay = ({ children, onClose }: { children: React.ReactNode, onClose: () => void }) => (

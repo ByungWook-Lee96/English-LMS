@@ -4,9 +4,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getTeacherById } from '../../api/teachers'
 import { updateScheduleStatus } from '../../api/schedules'
 import { 
-  ArrowLeft, User, Users, Clock, Calendar, 
+  User, Users, Calendar, 
   ChevronRight, ShieldCheck, UserCircle,
-  BarChart3, BookOpen, MessageSquare, X, Save
+  BarChart3, MessageSquare, X, Save
 } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'

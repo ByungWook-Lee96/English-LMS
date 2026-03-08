@@ -5,7 +5,7 @@ import { StudentService } from '../services/studentService.js'
 
 export const getStudents = async (req: AuthRequest, res: Response) => {
   try {
-    const teacherId = req.user?.role === 'TEACHER' ? req.user.teacherId : undefined
+    const teacherId = req.user?.role === 'TEACHER' ? (req.user.teacherId ?? undefined) : undefined
     const students = await StudentService.getAll(teacherId)
     res.json({ success: true, data: students })
   } catch (error: any) {
@@ -25,7 +25,7 @@ export const getStudentById = async (req: AuthRequest, res: Response) => {
 
 export const createStudent = async (req: AuthRequest, res: Response) => {
   try {
-    const teacherId = req.user?.role === 'TEACHER' ? req.user.teacherId : undefined
+    const teacherId = req.user?.role === 'TEACHER' ? (req.user.teacherId ?? undefined) : undefined
     const student = await StudentService.create(req.body, teacherId)
     res.json({ success: true, data: student })
   } catch (error: any) {

@@ -19,7 +19,7 @@ const DashboardPage = () => {
   const { data: schedules } = useQuery({
     queryKey: ['dashboard-schedules'],
     queryFn: () => getSchedules({ 
-      teacherId: user?.role === 'TEACHER' ? user?.teacherId : undefined 
+      teacherId: user?.role === 'TEACHER' ? (user?.teacherId ?? undefined) : undefined 
     })
   })
 

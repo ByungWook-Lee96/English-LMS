@@ -1,7 +1,7 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router'
 import { useAuthStore } from '../../stores/authStore'
 import { 
-  LogOut, Home, Users, Calendar, 
+  LogOut, Users, Calendar, 
   ChevronRight, LayoutDashboard,
   ShieldCheck, UserCircle, GraduationCap,
   User as UserIcon

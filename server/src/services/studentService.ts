@@ -54,26 +54,26 @@ export class StudentService {
   }
 
   static async update(id: number, data: any) {
-    let teacherIdValue = undefined;
+    const updateData: any = {
+      nameKo: data.nameKo,
+      nameEn: data.nameEn,
+      phone: data.phone,
+      age: data.age !== undefined ? (data.age === '' || data.age === null ? null : Number(data.age)) : undefined,
+      studyGoal: data.studyGoal,
+      textbook: data.textbook,
+      extraInfo: data.extraInfo,
+      totalSessions: data.totalSessions !== undefined ? Number(data.totalSessions) : undefined,
+      classDays: data.classDays,
+      classTime: data.classTime,
+    };
+
     if (data.teacherId !== undefined) {
-      teacherIdValue = (data.teacherId === '' || data.teacherId === null) ? null : Number(data.teacherId);
+      updateData.teacherId = (data.teacherId === '' || data.teacherId === null) ? null : Number(data.teacherId);
     }
 
     const student = await prisma.student.update({
       where: { id },
-      data: {
-        nameKo: data.nameKo,
-        nameEn: data.nameEn,
-        phone: data.phone,
-        age: data.age !== undefined ? (data.age === '' ? null : Number(data.age)) : undefined,
-        studyGoal: data.studyGoal,
-        textbook: data.textbook,
-        extraInfo: data.extraInfo,
-        totalSessions: data.totalSessions !== undefined ? Number(data.totalSessions) : undefined,
-        classDays: data.classDays,
-        classTime: data.classTime,
-        teacherId: teacherIdValue,
-      }
+      data: updateData
     })
 
     if (student.classDays && student.classTime && student.teacherId) {

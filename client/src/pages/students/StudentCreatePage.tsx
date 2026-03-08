@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createStudent } from '../../api/students'
 import { getTeachers } from '../../api/teachers'
 import { useAuthStore } from '../../stores/authStore'
-import { Save, Calendar, Clock, User } from 'lucide-react'
+import { Save, Calendar, User } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { TimeSelect } from '../../components/ui/TimeSelect'
@@ -77,6 +77,7 @@ const StudentCreatePage = () => {
   const mutation = useMutation({
     mutationFn: (data: any) => createStudent({
       ...data,
+      teacherId: user?.role === 'TEACHER' ? (user?.teacherId ?? undefined) : data.teacherId,
       classDays: selectedDays.join(',')
     }),
     onSuccess: () => {
@@ -192,7 +193,7 @@ const StudentCreatePage = () => {
             <div className="space-y-3">
               <label className="text-sm font-bold text-slate-700">Class Time</label>
               <TimeSelect 
-                value={watch('classTime')} 
+                value={watch('classTime') || '10:00'} 
                 onChange={(val) => setValue('classTime', val)} 
               />
             </div>
