@@ -1,5 +1,5 @@
 import prisma from '../lib/prisma.js'
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 export class TeacherService {
   static async getAll() {
