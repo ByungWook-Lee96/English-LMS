@@ -9,12 +9,14 @@ import { getStudents } from '../../api/students'
 import { getTeachers } from '../../api/teachers'
 import { useAuthStore } from '../../stores/authStore'
 import { 
-  X, Trash2, Calendar as CalendarIcon, Clock, User, 
-  CheckCircle2, Save, MessageSquare, Filter, Info, ChevronDown
+  Trash2, Calendar as CalendarIcon, Clock, User, 
+  CheckCircle2, Save, MessageSquare, Filter, Info, ChevronDown, Calendar
 } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { TimeSelect } from '../../components/ui/TimeSelect'
+import PageHeader from '../../components/common/PageHeader'
+import ModalHeader from '../../components/common/ModalHeader'
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -173,10 +175,10 @@ const SchedulePage = () => {
           borderBottom: `1px solid ${isMaster ? teacherBorder : '#f1f5f9'}30`,
         }}
       >
-        <span className="text-[11px] font-black text-slate-900 leading-none">
+        <span className="text-[14px] font-black text-slate-900 leading-none">
           {isSub && '(sub) '}{timeStr}
         </span>
-        <div className="text-[11px] font-bold text-slate-600 truncate leading-tight mt-0.5">
+        <div className="text-[13px] font-bold text-slate-600 truncate leading-tight mt-0.5">
           {isMaster && <span style={{ color: teacherBorder }}>[{s.teacher.name}] </span>}
           {s.student.nameEn}
         </div>
@@ -226,12 +228,13 @@ const SchedulePage = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-10">
-      <div className="flex flex-col space-y-6">
-        <div className="space-y-1">
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Class Schedule</h2>
-          <p className="text-slate-500 font-medium">Manage team assignments and monitor student attendance.</p>
-        </div>
+      <PageHeader 
+        title="Class Schedule" 
+        subtitle="Manage team assignments and monitor student attendance." 
+        icon={Calendar}
+      />
 
+      <div className="flex flex-col space-y-6">
         {/* Toolbar Container: 1 row, but items wrap if necessary */}
         <div className="flex flex-wrap xl:flex-row items-stretch justify-start gap-4 bg-white p-4 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/30">
           
@@ -267,9 +270,9 @@ const SchedulePage = () => {
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 {teachers?.map((t: any, idx: number) => (
-                  <div key={t.id} className="flex items-center space-x-2 shrink-0 bg-white/50 px-2 py-1 rounded-lg border border-white/50">
+                  <div key={t.id} className="flex items-center space-x-2 shrink-0 bg-white/50 px-2.5 py-1.5 rounded-lg border border-white/50 shadow-sm">
                     <div className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ backgroundColor: TEACHER_BORDER_COLORS[idx % TEACHER_BORDER_COLORS.length] }}></div>
-                    <span className="text-[11px] font-bold text-slate-600 whitespace-nowrap">{t.name}</span>
+                    <span className="text-[12px] font-bold text-slate-600 whitespace-nowrap">{t.name}</span>
                   </div>
                 ))}
               </div>
@@ -293,7 +296,7 @@ const SchedulePage = () => {
               ].map(status => (
                 <div key={status.label} className="flex items-center space-x-2 whitespace-nowrap">
                   <div className="w-2.5 h-2.5 rounded-full ring-2 ring-white shadow-sm" style={{ backgroundColor: status.color }}></div>
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{status.label}</span>
+                  <span className="text-[11px] font-black text-slate-500 uppercase tracking-tight">{status.label}</span>
                 </div>
               ))}
             </div>
@@ -323,7 +326,7 @@ const SchedulePage = () => {
       {isCreateModalOpen && (
         <ModalOverlay onClose={() => setIsCreateModalOpen(false)}>
           <div className="p-8 space-y-6">
-            <h3 className="text-2xl font-black text-slate-900 tracking-tight italic">Schedule Class</h3>
+            <ModalHeader title="Schedule Class" onClose={() => setIsCreateModalOpen(false)} />
             <div className="space-y-4">
               {user?.role === 'MASTER' && (
                 <div className="space-y-1.5">
@@ -358,11 +361,9 @@ const SchedulePage = () => {
       {selectedEvent && (
         <ModalOverlay onClose={() => setSelectedEvent(null)}>
           <div className="p-8 space-y-6">
-            <div className="flex justify-between items-center border-b border-slate-50 pb-5">
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight italic">Management</h3>
-              <button onClick={() => setSelectedEvent(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors"><X size={24} /></button>
-            </div>
+            <ModalHeader title="Management" onClose={() => setSelectedEvent(null)} />
             <div className="space-y-5">
+
               <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100">
                 <p className="font-black text-slate-900 text-lg">{selectedEvent.student.nameEn}</p>
                 <p className="text-[10px] text-indigo-500 font-black uppercase tracking-widest mt-1">Instructor: {selectedEvent.teacher.name}</p>
@@ -406,7 +407,7 @@ const SchedulePage = () => {
         .fc-day-today { background: #f8fafc !important; }
         .fc-day-today .fc-daygrid-day-number { color: #6366f1 !important; }
         .fc-col-header-cell { background: #f8fafc; padding: 12px 0 !important; }
-        .fc-col-header-cell-cushion { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; }
+        .fc-col-header-cell-cushion { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; }
         .fc-toolbar-title { font-size: 1.25rem !important; font-weight: 900 !important; color: #0f172a !important; }
         .fc-button { background: white !important; border: 1px solid #e2e8f0 !important; color: #64748b !important; font-weight: 700 !important; text-transform: capitalize !important; border-radius: 12px !important; padding: 0.5rem 1rem !important; }
         .fc-button-active { background: #6366f1 !important; border-color: #6366f1 !important; color: white !important; }

@@ -63,6 +63,28 @@ UI 텍스트(라벨, 버튼, 플레이스홀더, 메시지 등)는 모두 **영�
 - 상태를 `SUBSTITUTE`로 변경하면 해당 일정은 "고정(Fixed)"된 것으로 간주하며, 캘린더 타이틀 앞에 `(sub)` 접두어가 붙음.
 - 일정 이동 시 `isManual`이 `true`가 되어 시스템 자동 삭제로부터 보호됨.
 
+## UI Style Guide
+
+### 1. Page Headers (Standard Page Titles)
+- **Component**: `PageHeader` (`client/src/components/common/PageHeader.tsx`)
+- **Usage**: Every main page (Dashboard, Students, Schedule, Teachers) must use this component at the top.
+- **Icons**:
+    - Dashboard: `LayoutDashboard`
+    - Students: `Users`
+    - Class Schedule: `Calendar`
+    - Teachers: `ShieldCheck`
+- **Style**: `text-3xl font-extrabold text-slate-900 tracking-tight`. No `italic` in page titles.
+
+### 2. Modal Headers
+- **Component**: `ModalHeader` (`client/src/components/common/ModalHeader.tsx`)
+- **Usage**: All modals must use this for consistency.
+- **Style**: `text-2xl font-black text-slate-900 tracking-tight`. No `italic`.
+
+### 3. Visual Consistency
+- All interactive elements (buttons, inputs) should use `rounded-2xl` or `rounded-xl` for a modern, soft look.
+- Use `slate-900` for primary text and `indigo-600` for primary actions/accents.
+- UI animations: Use `animate-in fade-in duration-500` for page transitions.
+
 ---
 
 ## 코딩 및 작업 규칙

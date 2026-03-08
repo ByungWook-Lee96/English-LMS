@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 import { getStudents } from '../../api/students'
-import { Plus, Search, User } from 'lucide-react'
+import { Plus, Search, User, Users } from 'lucide-react'
 import { useState } from 'react'
+import PageHeader from '../../components/common/PageHeader'
 
 const StudentListPage = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,18 +17,24 @@ const StudentListPage = () => {
     s.nameEn.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  const addStudentButton = (
+    <Link 
+      to="/students/create" 
+      className="flex items-center space-x-2 bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-[0.98]"
+    >
+      <Plus size={20} />
+      <span>Add Student</span>
+    </Link>
+  )
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Students</h2>
-        <Link 
-          to="/students/create" 
-          className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-        >
-          <Plus size={18} />
-          <span>Add Student</span>
-        </Link>
-      </div>
+    <div className="space-y-8 animate-in fade-in duration-500 pb-20">
+      <PageHeader 
+        title="Students" 
+        subtitle="View and manage student information and their learning progress." 
+        icon={Users}
+        rightElement={addStudentButton}
+      />
 
       <div className="relative">
         <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">

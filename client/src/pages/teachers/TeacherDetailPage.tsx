@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import PageHeader from '../../components/common/PageHeader'
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -70,25 +71,11 @@ const TeacherDetailPage = () => {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-20 animate-in fade-in duration-500">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => navigate('/teachers')}
-            className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-slate-900"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <div>
-            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Instructor Profile</h2>
-            <div className="flex items-center mt-1 text-slate-500 text-sm">
-              <span className="font-bold text-indigo-600 uppercase tracking-widest text-[10px]">Active Member</span>
-              <span className="mx-2 text-slate-300">•</span>
-              <span>Join Date: {new Date(teacher.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeader 
+        title="Instructor Profile" 
+        subtitle={`Active Member • Joined ${new Date(teacher.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
+        backButton={{ onClick: () => navigate('/teachers') }}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Profile Sidebar */}

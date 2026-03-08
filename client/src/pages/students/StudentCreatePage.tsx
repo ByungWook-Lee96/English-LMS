@@ -7,11 +7,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createStudent } from '../../api/students'
 import { getTeachers } from '../../api/teachers'
 import { useAuthStore } from '../../stores/authStore'
-import { ArrowLeft, Save, Calendar, Clock, User } from 'lucide-react'
-import { Link } from 'react-router'
+import { Save, Calendar, Clock, User } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { TimeSelect } from '../../components/ui/TimeSelect'
+import PageHeader from '../../components/common/PageHeader'
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -98,14 +98,12 @@ const StudentCreatePage = () => {
   }
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto animate-in fade-in duration-500">
-      <div className="flex items-center justify-between">
-        <Link to="/students" className="flex items-center text-slate-400 hover:text-slate-900 transition-colors">
-          <ArrowLeft size={24} className="mr-2" />
-          <span className="font-bold">Back to Students</span>
-        </Link>
-        <h2 className="text-3xl font-black text-slate-900">Add New Student</h2>
-      </div>
+    <div className="space-y-8 max-w-4xl mx-auto animate-in fade-in duration-500 pb-20">
+      <PageHeader 
+        title="Add New Student" 
+        subtitle="Register a new student and set up their recurring class schedule."
+        backButton={{ onClick: () => navigate('/students') }}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">

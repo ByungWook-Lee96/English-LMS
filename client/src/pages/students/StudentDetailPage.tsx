@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { TimeSelect } from '../../components/ui/TimeSelect'
+import PageHeader from '../../components/common/PageHeader'
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -100,57 +101,46 @@ const StudentDetailPage = () => {
     .filter((s: any) => s.note)
     .sort((a: any, b: any) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime())
 
+  const rightElement = (
+    <div className="flex items-center space-x-3">
+      {isEditing ? (
+        <>
+          <button 
+            onClick={handleCancel}
+            className="flex items-center justify-center space-x-2 px-6 py-2.5 rounded-2xl font-bold transition-all bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"
+          >
+            <X size={18} />
+            <span>Cancel</span>
+          </button>
+          <button 
+            onClick={() => updateMutation.mutate(editData)}
+            disabled={updateMutation.isPending}
+            className="flex items-center justify-center space-x-2 px-6 py-2.5 rounded-2xl font-bold transition-all bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-100 disabled:bg-slate-300"
+          >
+            <Save size={18} />
+            <span>{updateMutation.isPending ? 'Saving...' : 'Save Changes'}</span>
+          </button>
+        </>
+      ) : (
+        <button 
+          onClick={() => setIsEditing(true)}
+          className="flex items-center justify-center space-x-2 px-6 py-2.5 rounded-2xl font-bold transition-all bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm"
+        >
+          <Edit2 size={18} />
+          <span>Edit Profile</span>
+        </button>
+      )}
+    </div>
+  )
+
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-20 animate-in fade-in duration-500">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => navigate('/students')}
-            className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-slate-900"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <div>
-            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Student Profile</h2>
-            <div className="flex items-center mt-1 text-slate-500 text-sm">
-              <span className="font-medium">{student.nameKo}</span>
-              <span className="mx-2 text-slate-300">•</span>
-              <span>ID: {student.id}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-3">
-          {isEditing ? (
-            <>
-              <button 
-                onClick={handleCancel}
-                className="flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl font-bold transition-all bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"
-              >
-                <X size={18} />
-                <span>Cancel</span>
-              </button>
-              <button 
-                onClick={() => updateMutation.mutate(editData)}
-                disabled={updateMutation.isPending}
-                className="flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl font-bold transition-all bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-100 disabled:bg-slate-300"
-              >
-                <Save size={18} />
-                <span>{updateMutation.isPending ? 'Saving...' : 'Save Changes'}</span>
-              </button>
-            </>
-          ) : (
-            <button 
-              onClick={() => setIsEditing(true)}
-              className="flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl font-bold transition-all bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm"
-            >
-              <Edit2 size={18} />
-              <span>Edit Profile</span>
-            </button>
-          )}
-        </div>
-      </div>
+      <PageHeader 
+        title="Student Profile" 
+        subtitle={`${student.nameKo} • ID: ${student.id}`}
+        backButton={{ onClick: () => navigate('/students') }}
+        rightElement={rightElement}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-4 space-y-8">

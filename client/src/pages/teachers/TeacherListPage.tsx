@@ -4,11 +4,13 @@ import { Link } from 'react-router'
 import { getTeachers } from '../../api/teachers'
 import api from '../../lib/axios'
 import { 
-  User, Users, Calendar, Plus, X, Shield, 
+  User, Users, Calendar, Plus, X, Shield, ShieldCheck,
   Lock, UserPlus, ArrowRight, UserCircle 
 } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import PageHeader from '../../components/common/PageHeader'
+import ModalHeader from '../../components/common/ModalHeader'
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -70,25 +72,24 @@ const TeacherListPage = () => {
     createTeacherMutation.mutate(formData)
   }
 
+  const addTeacherButton = (
+    <button 
+      onClick={() => setIsAddModalOpen(true)}
+      className="flex items-center justify-center space-x-2 bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-[0.98]"
+    >
+      <UserPlus size={20} />
+      <span>Add New Teacher</span>
+    </button>
+  )
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center">
-            <Shield className="mr-3 text-indigo-600" size={28} />
-            Teacher Management
-          </h2>
-          <p className="text-slate-500 mt-1">Manage instructor accounts and their assigned loads.</p>
-        </div>
-
-        <button 
-          onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center justify-center space-x-2 bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-[0.98]"
-        >
-          <UserPlus size={20} />
-          <span>Add New Teacher</span>
-        </button>
-      </div>
+      <PageHeader 
+        title="Teachers" 
+        subtitle="Manage instructor accounts and their assigned loads." 
+        icon={ShieldCheck}
+        rightElement={addTeacherButton}
+      />
 
       {isLoading ? (
         <div className="text-center py-20 animate-pulse text-slate-400">Loading teacher network...</div>
@@ -146,20 +147,12 @@ const TeacherListPage = () => {
       {/* Add Teacher Modal */}
       {isAddModalOpen && (
         <ModalOverlay onClose={() => setIsAddModalOpen(false)}>
-          <form onSubmit={onSubmit} className="p-8 space-y-6">
-            <div className="flex justify-between items-center border-b border-slate-50 pb-5">
-              <div>
-                <h3 className="text-2xl font-black text-slate-900">New Instructor</h3>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Credentials Setup</p>
-              </div>
-              <button 
-                type="button"
-                onClick={() => setIsAddModalOpen(false)} 
-                className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors"
-              >
-                <X size={24} />
-              </button>
-            </div>
+          <form onSubmit={onSubmit} className="p-8">
+            <ModalHeader 
+              title="New Instructor" 
+              subtitle="Credentials Setup" 
+              onClose={() => setIsAddModalOpen(false)} 
+            />
             
             <div className="space-y-5">
               <div className="space-y-1.5">
