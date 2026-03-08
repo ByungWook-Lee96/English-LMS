@@ -1,0 +1,44 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "docker compose -f ../docker-compose.yml up -d && tsx watch src/app.ts",
+    "seed": "tsx prisma/seed.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma": "prisma",
+    "db:push": "yarn prisma db push",
+    "db:migrate": "yarn prisma migrate dev",
+    "db:studio": "yarn prisma studio",
+    "db:generate": "yarn prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "6",
+    "axios": "^1.13.6",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.3.5",
+    "@types/nodemailer": "^7.0.11",
+    "prisma": "6",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

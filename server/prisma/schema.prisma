@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  role      Role     @default(TEACHER)
+  createdAt DateTime @default(now())
+  teacher   Teacher?
+}
+
+enum Role {
+  TEACHER
+  MASTER
+}
+
+model Teacher {
+  id        Int              @id @default(autoincrement())
+  userId    Int              @unique
+  name      String
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  students  Student[]
+  schedules Schedule[]
+}
+
+model Student {
+  id            Int              @id @default(autoincrement())
+  nameKo        String
+  nameEn        String
+  phone         String
+  age           Int?
+  studyGoal     String?          @db.Text
+  textbook      String?
+  extraInfo     String?          @db.Text
+  totalSessions Int              @default(0)
+  classDays     String?          
+  classTime     String?          
+  teacherId     Int?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  memos         Memo[]
+  schedules     Schedule[]
+  teacher       Teacher?         @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+}
+
+model Memo {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  content   String   @db.Text
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+model Schedule {
+  id        Int          @id @default(autoincrement())
+  studentId Int
+  teacherId Int
+  dateTime  DateTime
+  status    AttendStatus @default(PENDING)
+  note      String?
+  isManual  Boolean      @default(false) // Added to protect manual entries
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  student   Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher   Teacher      @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+}
+
+enum AttendStatus {
+  PENDING
+  PRESENT
+  ABSENT
+  NOSHOW
+  SUBSTITUTE
+}
